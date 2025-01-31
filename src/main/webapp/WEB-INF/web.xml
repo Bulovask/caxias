@@ -3,6 +3,9 @@
          version="3.0">
     <display-name>Caxias</display-name>
 
+    <welcome-file-list>
+        <welcome-file>produto.xhtml</welcome-file>
+    </welcome-file-list>
     <context-param>
         <param-name>javax.faces.PROJECT_STAGE</param-name>
         <param-value>Development</param-value>

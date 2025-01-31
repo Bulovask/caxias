@@ -1,15 +1,17 @@
 package org.bulovask.entity;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Builder;
 import lombok.Data;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
-@Table(name = "produto")
+@Table(name = "item_de_venda")
 public class ItemDeVenda implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

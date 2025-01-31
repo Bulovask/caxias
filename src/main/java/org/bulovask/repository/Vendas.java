@@ -1,13 +1,13 @@
 package org.bulovask.repository;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.bulovask.entity.Venda;
 
 import java.io.Serializable;
 import java.util.List;
 
 public class Vendas implements Serializable {
-    private static final Long serialVersionnUID = 1L;
+    private static final Long serialVersionUID = 1L;
 
     private EntityManager manager;
 

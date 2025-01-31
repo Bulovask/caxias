@@ -1,81 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://java.sun.com/jsf/core">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+
 <h:head>
     <meta charset="utf-8"/>
     <title>Produtos</title>
+    <meta name="viewport" content="width=device-width,user-scale=1.0"/>
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
     <header><h1>Caxias</h1></header>
     <section id="lista">
-        <h:dataTable value="#{produtoBean.listaProdutos}" var="produto" paginator="true" rows="10">
-            <h:column headerText="Nome">
+        <p:dataTable value="#{produtoBean.listaProdutos}" var="produto" paginator="true" rows="10">
+            <p:column headerText="Nome">
                 <f:facet name="header">
                     <h:outputText value="Nome"/>
                 </f:facet>
                 <h:outputText value="#{produto.nome}" />
-            </h:column>
+            </p:column>
 
-            <h:column headerText="Descrição">
+            <p:column headerText="Descrição">
                 <f:facet name="header">
                     <h:outputText value="Descrição"/>
                 </f:facet>
                 <h:outputText value="#{produto.descricao}" />
-            </h:column>
+            </p:column>
 
-            <h:column headerText="Estoque">
+            <p:column headerText="Estoque">
                 <f:facet name="header">
                     <h:outputText value="Estoque"/>
                 </f:facet>
                 <h:outputText value="#{produto.estoque}" />
-            </h:column>
+            </p:column>
 
-            <h:column headerText="Preço de Custo">
+            <p:column headerText="Preço de Custo">
                 <f:facet name="header">
                     <h:outputText value="Preço de Custo"/>
                 </f:facet>
                 <h:outputText value="#{produto.precoDeCusto}" />
-            </h:column>
+            </p:column>
 
-            <h:column headerText="Preço de Venda">
+            <p:column headerText="Preço de Venda">
                 <f:facet name="header">
                     <h:outputText value="Preço de Venda"/>
                 </f:facet>
                 <h:outputText value="#{produto.precoDeVenda}" />
-            </h:column>
+            </p:column>
 
-            <h:column headerText="Ações">
+            <p:column headerText="Ações">
                 <f:facet name="header">
                     <h:outputText value="Ações"/>
                 </f:facet>
-                <h:commandButton value="Editar" action="#{produtoBean.editar(produto)}" update="edicao" />
-                <h:commandButton value="Excluir" action="#{produtoBean.excluir(produto)}" update="lista" styleClass="ui-button-danger" />
-            </h:column>
-        </h:dataTable>
+
+                </p:column>
+        </p:dataTable>
     </section>
-    <section id="edicao">
-        <h:form>
+    <section>
+        <h:form id="edicao">
             <h2><h:outputText value="Cadastrando Produto"/></h2>
-            <h:panelGrid columns="2">
-                <h:outputLabel value="Nome: " for="nome"/>
-                <h:inputText id="nome" value="#{produtoBean.produto.nome}"/>
+            <p:panelGrid columns="2">
+                <p:outputLabel value="Nome: " for="nome"/>
+                <p:inputText id="nome" value="#{produtoBean.produto.nome}"/>
 
-                <h:outputLabel value="Descrição: " for="descricao"/>
-                <h:inputText id="descricao" value="#{produtoBean.produto.descricao}"/>
+                <p:outputLabel value="Descrição: " for="descricao"/>
+                <p:inputText id="descricao" value="#{produtoBean.produto.descricao}"/>
 
-                <h:outputLabel value="Estoque: " for="estoque"/>
-                <h:inputText id="estoque" value="#{produtoBean.produto.estoque}"/>
+                <p:outputLabel value="Estoque: " for="estoque"/>
+                <p:inputText id="estoque" value="#{produtoBean.produto.estoque}"/>
 
-                <h:outputLabel value="Preço de Custo: " for="precoDeCusto"/>
-                <h:inputText id="precoDeCusto" value="#{produtoBean.produto.precoDeCusto}"/>
+                <p:outputLabel value="Preço de Custo: " for="precoDeCusto"/>
+                <p:inputText id="precoDeCusto" value="#{produtoBean.produto.precoDeCusto}"/>
 
-                <h:outputLabel value="Preço de Venda: " for="precoDeVenda"/>
-                <h:inputText id="precoDeVenda" value="#{produtoBean.produto.precoDeVenda}"/>
+                <p:outputLabel value="Preço de Venda: " for="precoDeVenda"/>
+                <p:inputText id="precoDeVenda" value="#{produtoBean.produto.precoDeVenda}"/>
 
-                <h:outputLabel/>
-                <h:commandButton value="Salvar" actionListener="produtoBean.salvar"/>
-            </h:panelGrid>
+                <p:outputLabel/>
+                <p:commandButton value="Salvar" actionListener="#{produtoBean.salvar}"/>
+            </p:panelGrid>
         </h:form>
     </section>
 </h:body>

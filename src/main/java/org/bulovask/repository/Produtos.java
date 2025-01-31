@@ -1,6 +1,6 @@
 package org.bulovask.repository;
 
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.bulovask.entity.Produto;
 
 import javax.inject.Inject;
@@ -8,7 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Produtos implements Serializable {
-    private static final Long serialVersionnUID = 1L;
+    private static final Long serialVersionUID = 1L;
 
     @Inject
     private EntityManager manager;
@@ -24,7 +24,7 @@ public class Produtos implements Serializable {
     }
 
     public List<Produto> listarTudo() {
-        return manager.createQuery("from Produto", Produto.class).getResultList();
+        return manager.createQuery("SELECT p FROM Produto p", Produto.class).getResultList();
     }
 
     public Produto salvar(Produto produto) {

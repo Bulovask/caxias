@@ -6,7 +6,7 @@ import org.bulovask.repository.Produtos;
 import org.bulovask.service.ProdutoService;
 
 import javax.annotation.PostConstruct;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
@@ -34,12 +34,20 @@ public class ProdutoBean implements Serializable {
     }
 
     public void carregarLista() {
-        listaProdutos = produtos.listarTudo();
+        listaProdutos = produtoService.listarTudo();
     }
 
     public void salvar() {
-        produtoService.salvar(produto);
-        carregarLista();
-        produto = new Produto();
+        if(!(
+                this.produto.getNome() != null
+                || this.produto.getDescricao() != null
+                || this.produto.getEstoque() != null
+                || this.produto.getPrecoDeVenda() != null
+                || this.produto.getPrecoDeCusto() != null
+        )) {
+            produtoService.salvar(this.produto);
+            carregarLista();
+            produto = new Produto();
+        }
     }
 }
