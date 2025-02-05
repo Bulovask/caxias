@@ -98,7 +98,7 @@
 
             <p:dataTable id="itensVendaDataTable" value="#{vendaBean.venda.itensDeVenda}" var="itemDeVenda"
                          selectionMode="single" selection="#{vendaBean.itemDeVendaAtual}"
-                         rowKey="#{vendaBean.itemDeVendaAtual.id}">
+                         rowKey="#{itemDeVenda.id}">
 
                 <p:ajax event="rowSelect" update="frm:toolbar frm:vendaToolbar"/>
                 <p:ajax event="rowUnselect" update="frm:toolbar frm:vendaToolbar"/>
