@@ -32,4 +32,9 @@ public class ItemDeVenda implements Serializable {
     public void setPorcentoDesconto(Double porcentoDesconto) {
         this.desconto = this.precoUnitario * porcentoDesconto;
     }
+
+    @Override
+    public String toString() {
+        return "ItemDeVenda(id = " + id + ")";
+    }
 }

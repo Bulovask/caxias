@@ -2,52 +2,65 @@ package org.bulovask.controller;
 
 import lombok.Data;
 import org.bulovask.entity.Produto;
-import org.bulovask.repository.Produtos;
 import org.bulovask.service.ProdutoService;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ViewScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import java.io.Serializable;
 import java.util.List;
 
-@Named
-@ViewScoped
 @Data
+@Named
+@SessionScoped
 public class ProdutoBean implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Inject
-    private Produto produto;
-    @Inject
-    private Produtos produtos;
+    @Inject private ProdutoService produtoService;
+    private String pesquisa;
 
     private List<Produto> listaProdutos;
+    private Produto produto;
 
-    @Inject
-    private ProdutoService produtoService;
+    public void novoProduto() {
+        produto = new Produto();
+    }
 
-    @PostConstruct
-    public void init() {
-        carregarLista();
+    public void prepararEdicao() {
+        System.out.println(produto);
     }
 
     public void carregarLista() {
         listaProdutos = produtoService.listarTudo();
     }
 
+    public void pesquisar() {
+        System.out.println("Pesquisa: " + pesquisa + "; Resultado: " + isPesquisaEmBranco());
+        if(isPesquisaEmBranco()) carregarLista();
+        else listaProdutos = produtoService.pesquisar(pesquisa);
+    }
+
     public void salvar() {
-        if(!(
-                this.produto.getNome() != null
-                || this.produto.getDescricao() != null
-                || this.produto.getEstoque() != null
-                || this.produto.getPrecoDeVenda() != null
-                || this.produto.getPrecoDeCusto() != null
-        )) {
+        if(produto.getNome() != null && produto.getDescricao() != null && produto.getEstoque() != null
+            && produto.getPrecoDeCusto() != null && produto.getPrecoDeVenda() != null) {
             produtoService.salvar(this.produto);
             carregarLista();
             produto = new Produto();
         }
     }
+
+    public void excluir() {
+        produtoService.apagar(produto);
+        produto = null;
+        carregarLista();
+    }
+
+    public boolean isProdutoEstaSelecionado() {
+        return produto != null && produto.getId() != null;
+    }
+
+    public boolean isPesquisaEmBranco() {
+        return pesquisa == null || pesquisa.isEmpty();
+    }
+
 }

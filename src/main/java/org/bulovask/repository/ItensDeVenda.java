@@ -1,5 +1,6 @@
 package org.bulovask.repository;
 
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import org.bulovask.entity.ItemDeVenda;
 import org.bulovask.entity.Venda;
@@ -10,6 +11,7 @@ import java.util.List;
 public class ItensDeVenda implements Serializable {
     private static final Long serialVersionUID = 1L;
 
+    @Inject
     private EntityManager manager;
 
     public ItensDeVenda() {}

@@ -29,5 +29,9 @@ public class ProdutoService implements Serializable {
         return this.produtos.listarTudo();
     }
 
+    @Transacional
+    public List<Produto> pesquisar(String pesquisa) {
+        return this.produtos.pesquisar(pesquisa);
+    }
 
 }

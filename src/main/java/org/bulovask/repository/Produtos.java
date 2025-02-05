@@ -24,7 +24,14 @@ public class Produtos implements Serializable {
     }
 
     public List<Produto> listarTudo() {
-        return manager.createQuery("SELECT p FROM Produto p", Produto.class).getResultList();
+        return manager.createQuery("FROM Produto", Produto.class).getResultList();
+    }
+
+    public List<Produto> pesquisar(String pesquisa) {
+        return manager.createQuery(
+                "from Produto where nome like :pesquisa or descricao like :pesquisa or barcode like :pesquisa",
+                Produto.class
+        ).setParameter("pesquisa", "%" + pesquisa + "%").getResultList();
     }
 
     public Produto salvar(Produto produto) {

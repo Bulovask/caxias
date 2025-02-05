@@ -1,18 +1,27 @@
 body {
-    display: grid;
-    grid-template-rows: min-content 1fr min-content;
-    grid-template-columns: 1fr max-content;
-    gap: 10px;
-
-    height: 100vh;
-    width: 100vw;
-    padding: 10px;
-    margin: 0;
-
-    background-color: #ecc;
+    background-color: #567;
+    color: #012;
 }
 
 header {
-    grid-column: span 2;
-    background-color: #988;
+    background-color: #345;
+    color: #def;
+}
+
+td * {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+}
+
+.columns-2 {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    gap: 10px;
+}
+
+.ui-toolbar {
+    margin-bottom: 10px;
 }

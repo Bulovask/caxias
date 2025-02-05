@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui" xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
 <h:head>
     <meta charset="utf-8"/>
@@ -11,75 +11,91 @@
     <h:outputStylesheet library="css" name="style.css"/>
 </h:head>
 <h:body>
-    <header><h1>Caxias</h1></header>
-    <section id="lista">
-        <p:dataTable value="#{produtoBean.listaProdutos}" var="produto" paginator="true" rows="10">
-            <p:column headerText="Nome">
-                <f:facet name="header">
-                    <h:outputText value="Nome"/>
-                </f:facet>
-                <h:outputText value="#{produto.nome}" />
-            </p:column>
+    <f:metadata>
+        <f:viewAction action="#{produtoBean.carregarLista}" />
+    </f:metadata>
 
-            <p:column headerText="Descrição">
-                <f:facet name="header">
-                    <h:outputText value="Descrição"/>
-                </f:facet>
-                <h:outputText value="#{produto.descricao}" />
-            </p:column>
 
-            <p:column headerText="Estoque">
-                <f:facet name="header">
-                    <h:outputText value="Estoque"/>
-                </f:facet>
-                <h:outputText value="#{produto.estoque}" />
-            </p:column>
+    <h:form id="frm">
+        <p:toolbar id="toolbar">
+            <f:facet name="left">
+                <p:commandButton value="Cadastrar Produto"
+                                 actionListener="#{produtoBean.novoProduto}"
+                                 oncomplete="PF('produtoDialogWidgetVar').show()"
+                                 update="produtoDialog" process="@this">
+                    <p:resetInput target="produtoDialog"/>
+                </p:commandButton>
+                <p:commandButton value="Excluir"
+                                 disabled="#{not produtoBean.produtoEstaSelecionado}"
+                                 actionListener="#{produtoBean.excluir}"
+                                 update="produtosDataTable toolbar"
+                                 process="@this">
+                    <p:confirm header="Confirmação de exclusão"
+                               message="Tem certeza que deseja excluir o produto?" />
+                </p:commandButton>
+                <p:commandButton value="Editar"
+                                 disabled="#{not produtoBean.produtoEstaSelecionado}"
+                                 actionListener="#{produtoBean.prepararEdicao}"
+                                 oncomplete="PF('produtoDialogWidgetVar').show()"
+                                 update="produtoDialog toolbar" process="@this">
+                    <p:resetInput target="produtoDialog" />
+                </p:commandButton>
+                <p:inputText id="pesquisa" value="#{produtoBean.pesquisa}" placeholder="Pesquisar...">
+                    <p:ajax event="keyup" listener="#{produtoBean.pesquisar}" update="produtosDataTable"/>
+                </p:inputText>
+            </f:facet>
+            <f:facet name="right">
+                <p:button value="Ir para Tela de Vendas" outcome="vendas.xhtml"/>
+            </f:facet>
+        </p:toolbar>
 
-            <p:column headerText="Preço de Custo">
-                <f:facet name="header">
-                    <h:outputText value="Preço de Custo"/>
-                </f:facet>
-                <h:outputText value="#{produto.precoDeCusto}" />
-            </p:column>
+        <ui:include src="components/listaProdutos.xhtml">
+            <ui:param name="rows" value="10"/>
+            <ui:param name="selection" value="#{produtoBean.produto}"/>
+        </ui:include>
 
-            <p:column headerText="Preço de Venda">
-                <f:facet name="header">
-                    <h:outputText value="Preço de Venda"/>
-                </f:facet>
-                <h:outputText value="#{produto.precoDeVenda}" />
-            </p:column>
+        <p:dialog id="produtoDialog" header="Cadastrar Produto" widgetVar="produtoDialogWidgetVar"
+                  modal="true" resizable="false" closeOnEscape="true" draggable="true" position="left-bottom">
 
-            <p:column headerText="Ações">
-                <f:facet name="header">
-                    <h:outputText value="Ações"/>
-                </f:facet>
+            <p:messages id="produtoMessages"/>
 
-                </p:column>
-        </p:dataTable>
-    </section>
-    <section>
-        <h:form id="edicao">
-            <h2><h:outputText value="Cadastrando Produto"/></h2>
-            <p:panelGrid columns="2">
+            <p:defaultCommand target="salvarCommandButton" scope="produtoDialog"/>
+
+            <h:panelGrid id="produtoGrid" columns="2" rendered="#{produtoBean.produto ne null}">
+                <p:outputLabel value="Código de Barras " for="barcode"/>
+                <p:inputText id="barcode" value="#{produtoBean.produto.barcode}" required="true"/>
+
                 <p:outputLabel value="Nome: " for="nome"/>
-                <p:inputText id="nome" value="#{produtoBean.produto.nome}"/>
+                <p:inputText id="nome" value="#{produtoBean.produto.nome}" required="true"/>
 
                 <p:outputLabel value="Descrição: " for="descricao"/>
-                <p:inputText id="descricao" value="#{produtoBean.produto.descricao}"/>
+                <p:inputTextarea id="descricao" value="#{produtoBean.produto.descricao}"/>
 
                 <p:outputLabel value="Estoque: " for="estoque"/>
-                <p:inputText id="estoque" value="#{produtoBean.produto.estoque}"/>
+                <p:inputNumber id="estoque" value="#{produtoBean.produto.estoque}" required="true"/>
 
                 <p:outputLabel value="Preço de Custo: " for="precoDeCusto"/>
-                <p:inputText id="precoDeCusto" value="#{produtoBean.produto.precoDeCusto}"/>
+                <p:inputNumber id="precoDeCusto" value="#{produtoBean.produto.precoDeCusto}" required="true"/>
 
                 <p:outputLabel value="Preço de Venda: " for="precoDeVenda"/>
-                <p:inputText id="precoDeVenda" value="#{produtoBean.produto.precoDeVenda}"/>
+                <p:inputNumber id="precoDeVenda" value="#{produtoBean.produto.precoDeVenda}" required="true"/>
 
                 <p:outputLabel/>
-                <p:commandButton value="Salvar" actionListener="#{produtoBean.salvar}"/>
-            </p:panelGrid>
-        </h:form>
-    </section>
+                <p:commandButton id="salvarCommandButton" value="Salvar" actionListener="#{produtoBean.salvar}"
+                                 oncomplete="if (!args.validationFailed) PF('produtoDialogWidgetVar').hide()"
+                                 update="produtoGrid produtosDataTable" process="produtoDialog"/>
+            </h:panelGrid>
+        </p:dialog>
+    </h:form>
+
+    <h:form>
+        <p:confirmDialog global="true">
+            <p:commandButton value="Não" icon="fa fa-remove"
+                             styleClass="ui-confirmdialog-no"/>
+
+            <p:commandButton value="Sim" icon="fa fa-check"
+                             styleClass="ui-confirmdialog-yes"/>
+        </p:confirmDialog>
+    </h:form>
 </h:body>
 </html>
